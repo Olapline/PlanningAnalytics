@@ -101,7 +101,50 @@
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
+   ```sh
+            string BaseUrl = "http://localhost:8091/api/v1/";
+            string UserName = "XXX";
+            string Password = "XXX";
 
+
+            using (PlanningAnalyticsConnection Connection = new PlanningAnalyticsConnection(BaseUrl))
+            {
+
+                if (Connection.Authenticate(UserName, Password))
+                {
+
+                    Console.WriteLine("Instance Name:" + Connection.InstanceName);
+
+                    // Iterate over Processes
+                    foreach (var process in Connection.Processes)
+                    {
+                        // The Names will be fetched by the iterator, the object by the getter
+                        Console.WriteLine(process.Name);
+                        PlanningAnalytics.Model.PlanningAnalyticsProcess Process = Connection.Processes[process.Name];
+                        Console.WriteLine(Process.DataSource.Type);
+
+                    }
+
+                    // get a specific Dimension
+                    PlanningAnalytics.Model.PlanningAnalyticsDimension Dimension = Connection.Dimensions["Projects"];
+                    var Hier = Dimension.Hierarchies.ElementAt(0);
+                    foreach (var attr in Hier.ElementAttributes)
+                    {
+                        Console.WriteLine(attr.Name);
+                    }
+
+                    foreach (var level in Hier.Levels)
+                    {
+                        Console.WriteLine(level.Name);
+                    }
+                    Console.WriteLine(Dimension.Hierarchies.ElementAt(0).UniqueName + " Number of Elements:" + Hier.Cardinality);
+
+
+
+                }
+
+            }
+   ```
 ### Prerequisites
 
 

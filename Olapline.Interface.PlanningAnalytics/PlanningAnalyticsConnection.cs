@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace Olapline.Interface.PlanningAnalytics
 {
-    public class PlanningAnalyticsConnection
+    public class PlanningAnalyticsConnection:IDisposable
     {
         private readonly string _host;
         private readonly IPlanningAnalyticsRestService _planningAnalyticsRestService;
@@ -83,5 +83,9 @@ namespace Olapline.Interface.PlanningAnalytics
             return _planningAnalyticsRestService.Get<dynamic>(request, Delta);
         }
 
+        void IDisposable.Dispose()
+        {
+            
+        }
     }
 }
