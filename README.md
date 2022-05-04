@@ -101,7 +101,8 @@
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
-   ```sh
+
+   ```csharp
             string BaseUrl = "http://localhost:8091/api/v1/";
             string UserName = "XXX";
             string Password = "XXX";
