@@ -30,13 +30,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/olapline/PlanningAnalytics">
-    <img src="https://www.olapline.de/files/olapline-theme/img/brand-olapline-subline.svg" alt="Logo" width="80" height="80">
+    <img src="https://www.olapline.de/files/olapline-theme/img/brand-olapline-subline.svg" alt="Logo" width="300">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">PlanningAnalyticsNET</h3>
 
   <p align="center">
-    project_description
+    This Interface wraps the odata Rest Interface of TM1 in a workable Project in C#.NET.
     <br />
     <a href="https://github.com/olapline/PlanningAnalytics"><strong>Explore the docs »</strong></a>
     <br />
@@ -82,9 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+[![Product Name Screen Shot][product-screenshot]](https://olapline.de)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -92,14 +90,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Newtonsoft JSON](https://newtonsoft.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -113,11 +104,9 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+
+* .net 4.7.2
+  
 
 ### Installation
 
@@ -125,14 +114,6 @@ This is an example of how to list things you need to use the software and how to
 2. Clone the repo
    ```sh
    git clone https://github.com/olapline/PlanningAnalytics.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -194,7 +175,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - info@olapline.de@info@olapline.de_client.com
 
 Project Link: [https://github.com/olapline/PlanningAnalytics](https://github.com/olapline/PlanningAnalytics)
 
@@ -226,5 +207,5 @@ Project Link: [https://github.com/olapline/PlanningAnalytics](https://github.com
 [license-shield]: https://img.shields.io/github/license/olapline/PlanningAnalytics.svg?style=for-the-badge
 [license-url]: https://github.com/olapline/PlanningAnalytics/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
+[linkedin-url]: https://linkedin.com/in/olapline
 [product-screenshot]: images/screenshot.png
