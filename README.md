@@ -33,7 +33,7 @@
     <img src="https://www.olapline.de/files/olapline-theme/img/brand-olapline-subline.svg" alt="Logo" width="300">
   </a>
 
-<h3 align="center">PlanningAnalyticsNET</h3>
+<h3 align="center">PlanningAnalytics.NET</h3>
 
   <p align="center">
     This Interface wraps the odata Rest Interface of TM1 in a workable Project in C#.NET.
@@ -91,6 +91,7 @@
 ### Built With
 
 * [Newtonsoft JSON](https://newtonsoft.org/)
+* [Log4Net](https://apache.org/log4net)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -154,11 +155,12 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/olapline/PlanningAnalytics.git
    ```
+2. Create your own Project
+3. Integrate PlanningAnalytics.NET into your Solution
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -167,9 +169,11 @@ To get a local copy up and running follow these simple example steps.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+* C# WebApi Middleware
+* C# Deployment Tool
+* C# Monitoring Tool
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://olapline.de)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -178,10 +182,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Upload Blob File Content
+- [ ] Bulk Update Hierarchies
 
 See the [open issues](https://github.com/olapline/PlanningAnalytics/issues) for a full list of proposed features (and known issues).
 
