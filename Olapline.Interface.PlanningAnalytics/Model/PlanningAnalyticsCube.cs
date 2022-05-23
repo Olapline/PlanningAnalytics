@@ -27,7 +27,7 @@ namespace Olapline.Interface.PlanningAnalytics.Model
         {
             dynamic PostContent = new ExpandoObject();
             PostContent.Rules = Rule;
-            _planningAnalyticsRestService.Patch<dynamic>("Cubes('" + this.Name + "')/Rules", PostContent);
+            _planningAnalyticsRestService.Patch<dynamic>("Cubes('" + this.Name + "')", PostContent);
             dynamic result = _planningAnalyticsRestService.Post<dynamic>("Cubes('" + this.Name + "')/tm1.CheckRules", null);
             return result;
         }

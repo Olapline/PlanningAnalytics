@@ -59,6 +59,7 @@
     <Compile Include="Model\PlanningAnalyticsDimensionHierarchyMember.cs" />
     <Compile Include="Model\PlanningAnalyticsElementAttribute.cs" />
     <Compile Include="Model\PlanningAnalyticsEntry.cs" />
+    <Compile Include="Model\PlanningAnalyticsGit.cs" />
     <Compile Include="Model\PlanningAnalyticsObject.cs" />
     <Compile Include="Model\PlanningAnalyticsProcess.cs" />
     <Compile Include="Model\PlanningAnalyticsServerConfiguration.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Repositories\PlanningAnalyticsDimensionHierarchyElementRepository.cs" />
     <Compile Include="Repositories\PlanningAnalyticsDimensionHierarchyMemberRepository.cs" />
     <Compile Include="Repositories\PlanningAnalyticsDimensionHierarchyRepository.cs" />
+    <Compile Include="Repositories\PlanningAnalyticsGitPlanRepository.cs" />
     <Compile Include="Repositories\PlanningAnalyticsThreadsRepository.cs" />
     <Compile Include="Repositories\PlanningAnalyticsProcessRepository.cs" />
     <Compile Include="Repositories\PlanningAnalyticsDimensionsRepository.cs" />

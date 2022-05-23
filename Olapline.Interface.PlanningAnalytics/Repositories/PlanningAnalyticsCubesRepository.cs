@@ -30,6 +30,7 @@ namespace Olapline.Interface.PlanningAnalytics.Repositories
         public IEnumerator<PlanningAnalyticsCube> GetEnumerator()
         {
             Cubes = _planningAnalyticsRestService.Get<PlanningAnalyticsCubeList>("Cubes?$expand=Dimensions").value;
+            Cubes.ForEach(x => x.SetInterface(_planningAnalyticsRestService));
             return Cubes.GetEnumerator();
         }
 

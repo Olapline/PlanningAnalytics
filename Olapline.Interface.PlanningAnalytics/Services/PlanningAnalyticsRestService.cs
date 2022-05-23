@@ -15,21 +15,30 @@ using System.Threading;
 
 namespace Olapline.Interface.PlanningAnalytics.Services
 {
+
+    /// <summary>
+    /// This Internal Interface is the central interface for the repositories and the server
+    /// </summary>
     public interface IPlanningAnalyticsRestService
     {
-        
+
         bool Authenticate(string UserName, string Password);
 
         string AuthMode();
-        T Get<T>(string Url, bool Delta=false);
-        dynamic Post(string Url, dynamic Body, bool IncludeMetaData = true, bool RetrieveResult=true);
-        T Post<T>(string Url, dynamic Body, bool IncludeMetaData=true);
+        T Get<T>(string Url, bool Delta = false);
+        dynamic Post(string Url, dynamic Body, bool IncludeMetaData = true, bool RetrieveResult = true);
+        T Post<T>(string Url, dynamic Body, bool IncludeMetaData = true);
         T Put<T>(string Url, dynamic Body);
         T Delete<T>(string Url);
 
         T Patch<T>(string Url, dynamic Body);
-        Task<T> GetAsync<T>(string Url);
+        Task<T> GetAsync<T>(string Url, bool Delta = false);
     }
+
+
+    /// <summary>
+    /// THe Rest Service for a TM1 Instance
+    /// </summary>
     public class PlanningAnalyticsRestService : IPlanningAnalyticsRestService
     {
         private readonly HttpClient _httpClient;
@@ -39,6 +48,14 @@ namespace Olapline.Interface.PlanningAnalytics.Services
         private string Tm1SessionId;
         private string _authenticationMode;
 
+
+        /// <summary>
+        /// Creates the internal HTTPClient
+        /// Sets the Service Base URL
+        /// Detects the Authentication Mode
+        /// Overcomes SSL and TLS Issues
+        /// </summary>
+        /// <param name="Url"></param>
         public PlanningAnalyticsRestService(string Url)
         {
             _httpClient = new HttpClient();
@@ -53,6 +70,11 @@ namespace Olapline.Interface.PlanningAnalytics.Services
             _authenticationMode = DetectAuthenticationMode();
         }
 
+
+        /// <summary>
+        /// Detects the several auth Modes from TM1 eg. 1,2,3,5
+        /// </summary>
+        /// <returns></returns>
         private string DetectAuthenticationMode()
         {
             var response = _httpClient.GetAsync(_serviceBaseUrl + "Cubes").Result;
@@ -71,6 +93,18 @@ namespace Olapline.Interface.PlanningAnalytics.Services
         }
 
 
+
+        /// <summary>
+        /// Authenticates to the TM1 Instance 
+        /// In Case of 5 ==> Authentication the current Executing Principal will be used to gather a cam Passport from Configured Gateway URL (Full SSO),
+        /// In Case of Username and Password given a User Principal will be generated using that User
+        /// In Case of 1 ==> Basic
+        /// In Case of 2 ==> Windows NTLM User Principal
+        /// In Case of 3 ==> Either User Principal or given Username 
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public bool Authenticate(string UserName = null, string Password = null)
         {
             try
@@ -141,7 +175,12 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
                                 Tm1SessionId = Header.Split(';')[0].Split('=')[1];
                             }
-                            
+
+                        }
+                        else
+                        {
+                            log.Error("Authentication Failed due to invalid credentials.");
+                            return false;
                         }
 
                     }
@@ -158,7 +197,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
                 }
 
-                
+
 
             }
             catch (Exception e)
@@ -171,6 +210,13 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
 
 
+        /// <summary>
+        /// Get Request with Possible Streaming Delta ==> Odata Track Changes Stream
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Url"></param>
+        /// <param name="Delta"></param>
+        /// <returns></returns>
         public T Get<T>(string Url, bool Delta = false)
         {
             // Replace #
@@ -179,7 +225,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
             var message = new HttpRequestMessage(HttpMethod.Get, _serviceBaseUrl + Url);
             message.Headers.Add("Cookie", "TM1SessionId=" + this.Tm1SessionId);
-            
+
             if (this._authenticationHeader != null)
             {
                 message.Headers.Authorization = this._authenticationHeader;
@@ -189,7 +235,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
             {
                 message.Headers.Add("Prefer", "odata.track-changes");
             }
-            
+
             var response = _httpClient.SendAsync(message).Result;
 
             if (response.IsSuccessStatusCode)
@@ -252,7 +298,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
             Stream newStream = myHttpWebRequest.GetRequestStream();
             newStream.Write(byteArray, 0, byteArray.Length);
             newStream.Close();
-            
+
             // Assign the response object of 'HttpWebRequest' to a 'HttpWebResponse' variable.
             HttpWebResponse myHttpWebResponse = (HttpWebResponse)myHttpWebRequest.GetResponse();
 
@@ -260,21 +306,21 @@ namespace Olapline.Interface.PlanningAnalytics.Services
         }
 
 
-        public T Post<T>(string Url, dynamic Body, bool IncludeMetadata=true)
+        public T Post<T>(string Url, dynamic Body, bool IncludeMetadata = true)
         {
             // Replace #
             Url = Url.Replace("#", "%23");
 
 
             var message = new HttpRequestMessage(HttpMethod.Post, _serviceBaseUrl + Url);
-            
+
             message.Content = new StringContent(JsonConvert.SerializeObject(Body), Encoding.UTF8, "application/json");
             message.Headers.Add("Cookie", "TM1SessionId=" + this.Tm1SessionId);
             if (!IncludeMetadata)
             {
                 message.Headers.Add("Accept", "application/json;odata.metadata=none");
             }
-            
+
             //message.Headers.Add("Content-Type", "application/json");
             if (this._authenticationHeader != null)
             {
@@ -409,48 +455,6 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
         }
 
-        public async Task<T> GetAsync<T>(string Url)
-        {
-            // Replace #
-            Url = Url.Replace("#", "%23");
-
-
-            var message = new HttpRequestMessage(HttpMethod.Get, _serviceBaseUrl + Url);
-            message.Headers.Add("Cookie", "TM1SessionId=" + this.Tm1SessionId);
-            if (this._authenticationHeader != null)
-            {
-                message.Headers.Authorization = this._authenticationHeader;
-            }
-            var response = _httpClient.SendAsync(message).Result;
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseString = await response.Content.ReadAsStringAsync();
-
-                var result = JsonConvert.DeserializeObject<T>(responseString);
-                return result;
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                // Try ReAuthenticate
-                if (this.Authenticate())
-                {
-                    return await this.GetAsync<T>(Url);
-                }
-                else
-                {
-                    string Message = "Authentication Error with Server";
-                    log.Error(Message);
-                    throw (new Exception(Message));
-                }
-
-            }
-            else
-            {
-                string Message = response.Content.ReadAsStringAsync().Result;
-                throw (new Exception(Message));
-            }
-        }
 
         public T Patch<T>(string Url, dynamic Body)
         {
@@ -498,6 +502,57 @@ namespace Olapline.Interface.PlanningAnalytics.Services
             }
 
 
+        }
+
+        // ASYNC Operatoren
+        public async Task<T> PostAsync<T>(string Url, dynamic body, bool includeMetadata)
+        {
+            return await Post<T>(Url, body, includeMetadata);
+        }
+
+
+        public async Task<T> GetAsync<T>(string Url, bool Delta = false)
+        {
+            return Get<T>(Url,Delta);
+            // Replace #
+            Url = Url.Replace("#", "%23");
+
+
+            var message = new HttpRequestMessage(HttpMethod.Get, _serviceBaseUrl + Url);
+            message.Headers.Add("Cookie", "TM1SessionId=" + this.Tm1SessionId);
+            if (this._authenticationHeader != null)
+            {
+                message.Headers.Authorization = this._authenticationHeader;
+            }
+            var response = _httpClient.SendAsync(message).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                var result = JsonConvert.DeserializeObject<T>(responseString);
+                return result;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                // Try ReAuthenticate
+                if (this.Authenticate())
+                {
+                    return await this.GetAsync<T>(Url);
+                }
+                else
+                {
+                    string Message = "Authentication Error with Server";
+                    log.Error(Message);
+                    throw (new Exception(Message));
+                }
+
+            }
+            else
+            {
+                string Message = response.Content.ReadAsStringAsync().Result;
+                throw (new Exception(Message));
+            }
         }
 
         public string AuthMode()
