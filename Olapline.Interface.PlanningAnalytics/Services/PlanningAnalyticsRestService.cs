@@ -154,13 +154,13 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
 
                 }
-                if (_authenticationMode.Contains("Negotiate"))
+                if (_authenticationMode.Contains("Negotiate") && UserName==null)
                 {
                     // Windows Integrated
 
                 }
 
-                if (_authenticationMode.Contains("Basic"))
+                if (_authenticationMode.Contains("Basic") || (_authenticationMode.Contains("Negotiate") && UserName != null))
                 {
                     var byteArray = Encoding.ASCII.GetBytes(UserName + ":" + Password);
                     _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
@@ -287,7 +287,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
             }
             // Set 'Method' property of 'HttpWebRequest' class to POST.
             myHttpWebRequest.Method = "POST";
-            string Content = JsonConvert.SerializeObject(Body);
+            string Content = JsonConvert.SerializeObject(Body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented });
             byte[] byteArray = Encoding.UTF8.GetBytes(Content);
             // Set 'ContentType' property of the 'HttpWebRequest' class to "application/x-www-form-urlencoded".
             myHttpWebRequest.ContentType = "application/json; charset=UTF-8";
@@ -314,7 +314,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
             var message = new HttpRequestMessage(HttpMethod.Post, _serviceBaseUrl + Url);
 
-            message.Content = new StringContent(JsonConvert.SerializeObject(Body), Encoding.UTF8, "application/json");
+            message.Content = new StringContent(JsonConvert.SerializeObject(Body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented }), Encoding.UTF8, "application/json");
             message.Headers.Add("Cookie", "TM1SessionId=" + this.Tm1SessionId);
             if (!IncludeMetadata)
             {
@@ -368,7 +368,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
 
             var message = new HttpRequestMessage(HttpMethod.Put, _serviceBaseUrl + Url);
-            message.Content = new StringContent(JsonConvert.SerializeObject(Body), Encoding.UTF8, "application/json");
+            message.Content = new StringContent(JsonConvert.SerializeObject(Body,new JsonSerializerSettings() { NullValueHandling= NullValueHandling.Ignore, Formatting= Formatting.Indented }), Encoding.UTF8, "application/json");
             message.Headers.Add("Cookie", "TM1SessionId=" + this.Tm1SessionId);
             if (this._authenticationHeader != null)
             {
@@ -462,7 +462,7 @@ namespace Olapline.Interface.PlanningAnalytics.Services
 
 
             var message = new HttpRequestMessage(new HttpMethod("PATCH"), _serviceBaseUrl + Url);
-            message.Content = new StringContent(JsonConvert.SerializeObject(Body), Encoding.UTF8, "application/json");
+            message.Content = new StringContent(JsonConvert.SerializeObject(Body, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented }), Encoding.UTF8, "application/json");
             message.Headers.Add("Cookie", "TM1SessionId=" + this.Tm1SessionId);
 
             if (this._authenticationHeader != null)

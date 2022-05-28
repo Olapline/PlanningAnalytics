@@ -64,6 +64,7 @@
     <Compile Include="Model\PlanningAnalyticsProcess.cs" />
     <Compile Include="Model\PlanningAnalyticsServerConfiguration.cs" />
     <Compile Include="Model\PlanningAnalyticsThread.cs" />
+    <Compile Include="Model\PlanningAnalyticsTM1Project.cs" />
     <Compile Include="PlanningAnalyticsAdminConnection.cs" />
     <Compile Include="PlanningAnalyticsConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -144,7 +144,7 @@ namespace Olapline.Interface.PlanningAnalytics
             PostObject.ExecutionMode = executionMode;
             PostObject.Force = Force;
 
-            return _planningAnalyticsRestService.Post<dynamic>("GitPull", PostObject);
+            return _planningAnalyticsRestService.Post<PlanningAnalyticsGitPullPlan>("GitPull", PostObject);
         }
 
         public PlanningAnalyticsGitPushPlan GitPush(string Username, string Password, string Branch, string NewBranch, string Message, string Author, string Email, bool Force)
@@ -162,6 +162,16 @@ namespace Olapline.Interface.PlanningAnalytics
             PostObject.Force = Force;
 
             return _planningAnalyticsRestService.Post<PlanningAnalyticsGitPushPlan>("GitPush", PostObject);
+        }
+
+        public PlanningAnalyticsGitPushPlan GitPushUpdateSourceFiles(PlanningAnalyticsGitPushPlan Plan)
+        {
+            dynamic PostObject = new ExpandoObject();
+
+            PostObject.SourceFiles =Plan.SourceFiles;
+
+
+            return _planningAnalyticsRestService.Patch<PlanningAnalyticsGitPushPlan>("GitPlans('"+Plan.ID+"')", PostObject);
         }
 
         public PlanningAnalyticsGit GitStatus(string Username, string Password)
@@ -182,6 +192,18 @@ namespace Olapline.Interface.PlanningAnalytics
         public dynamic SendRequestGet(string request, bool Delta = false)
         {
             return _planningAnalyticsRestService.Get<dynamic>(request, Delta);
+        }
+
+        public PlanningAnalyticsTM1Project TM1Project
+        {
+            get
+            {
+                return _planningAnalyticsRestService.Get<PlanningAnalyticsTM1Project>("!tm1project", false);
+            }
+            set
+            {
+                _planningAnalyticsRestService.Put<PlanningAnalyticsTM1Project>("!tm1project",value);
+            }
         }
 
         void IDisposable.Dispose()

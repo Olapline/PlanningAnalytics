@@ -25,7 +25,6 @@ namespace Olapline.Interface.PlanningAnalytics.Model
 
         public string Author { get; set; }
 
-        public string Remote { get; set; }
     }
 
     public class PlanningAnalyticsGitPlan
@@ -56,7 +55,7 @@ namespace Olapline.Interface.PlanningAnalytics.Model
 
         public List<string> Operations { get; set; }
 
-        public PlanningAnalyticsGitPlanExecutionMode ExecutionMode { get; set; }
+        public string ExecutionMode { get; set; }
 
 
     }

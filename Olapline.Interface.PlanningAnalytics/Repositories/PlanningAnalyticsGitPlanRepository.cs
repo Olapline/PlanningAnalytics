@@ -29,6 +29,28 @@ namespace Olapline.Interface.PlanningAnalytics.Repositories
             }
         }
 
+        public PlanningAnalyticsGitPlan this[string Index, bool Push]
+        {
+            get
+            {
+                
+                if (Push)
+                {
+
+                    var result = _planningAnalyticsRestService.Get<PlanningAnalyticsGitPushPlan>("GitPlans('" + Index + "')");
+                    return result;
+                }
+                else
+                {
+                    var result = _planningAnalyticsRestService.Get<PlanningAnalyticsGitPullPlan>("GitPlans('" + Index + "')");
+                    return result;
+                }
+                
+                //result.SetInterface(_planningAnalyticsRestService);
+                return null;
+            }
+        }
+
 
         public IEnumerator<PlanningAnalyticsGitPlan> GetEnumerator()
         {
