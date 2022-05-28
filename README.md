@@ -80,13 +80,6 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://olapline.de)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -94,8 +87,6 @@
 * [Log4Net](https://apache.org/log4net)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
